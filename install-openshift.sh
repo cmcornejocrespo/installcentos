@@ -9,7 +9,7 @@ export DOMAIN=${DOMAIN:="$(curl -s ipinfo.io/ip).nip.io"}
 export USERNAME=${USERNAME:="$(whoami)"}
 export PASSWORD=${PASSWORD:=password}
 export VERSION=${VERSION:="3.11"}
-export SCRIPT_REPO=${SCRIPT_REPO:="https://raw.githubusercontent.com/gshipley/installcentos/master"}
+export SCRIPT_REPO=${SCRIPT_REPO:="https://raw.githubusercontent.com/cmcornejocrespo/installcentos/master"}
 export IP=${IP:="$(ip route get 8.8.8.8 | awk '{print $NF; exit}')"}
 export API_PORT=${API_PORT:="8443"}
 export LETSENCRYPT=${LETSENCRYPT:="false"}
@@ -85,7 +85,7 @@ echo "******"
 yum update -y
 
 # install the following base packages
-yum install -y  wget git zile nano net-tools docker-1.13.1\
+yum install -y  wget git zile nano net-tools docker-1.13.1 \
 				bind-utils iptables-services \
 				bridge-utils bash-completion \
 				kexec-tools sos psacct openssl-devel \
