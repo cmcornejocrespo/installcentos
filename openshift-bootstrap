@@ -2,4 +2,5 @@
 
 curl -o install-openshift.sh https://raw.githubusercontent.com/cmcornejocrespo/installcentos/master/install-openshift.sh
 chmod +x install-openshift.sh
-time ./install-openshift.sh
+./install-openshift.sh
+echo "Don't forget to add console.$DOMAIN to your /etc/hosts"

@@ -4,16 +4,18 @@
 
 ## Default variables to use
 export INTERACTIVE=${INTERACTIVE:="true"}
-export PVS=${INTERACTIVE:="true"}
-export DOMAIN=${DOMAIN:="$(curl -s ipinfo.io/ip).nip.io"}
+export PVS=${PVS:="false"}
 export USERNAME=${USERNAME:="$(whoami)"}
 export PASSWORD=${PASSWORD:=password}
 export VERSION=${VERSION:="3.11"}
 export SCRIPT_REPO=${SCRIPT_REPO:="https://raw.githubusercontent.com/cmcornejocrespo/installcentos/master"}
 export IP=${IP:="$(ip route get 8.8.8.8 | awk '{print $NF; exit}')"}
+export DOMAIN=${DOMAIN:="$(curl -s ipinfo.io/ip).nip.io"}
 export API_PORT=${API_PORT:="8443"}
 export LETSENCRYPT=${LETSENCRYPT:="false"}
 export MAIL=${MAIL:="example@email.com"}
+export METRICS=${METRICS:="false"}
+export LOGGING=${LOGGING:="false"}
 
 ## Make the script interactive to set the variables
 if [ "$INTERACTIVE" = "true" ]; then
@@ -145,17 +147,14 @@ if [ ! -f ~/.ssh/id_rsa ]; then
 	ssh -o StrictHostKeyChecking=no root@$IP "pwd" < /dev/null
 fi
 
-export METRICS="True"
-export LOGGING="True"
-
 memory=$(cat /proc/meminfo | grep MemTotal | sed "s/MemTotal:[ ]*\([0-9]*\) kB/\1/")
 
-if [ "$memory" -lt "4194304" ]; then
-	export METRICS="False"
+if [ "$METRICS" = "true" ] && [ "$memory" -lt "4194304" ]; then
+	export METRICS="false"
 fi
 
-if [ "$memory" -lt "16777216" ]; then
-	export LOGGING="False"
+if [ "$LOGGING" = "true" ] && [ "$memory" -lt "16777216" ]; then
+	export LOGGING="false"
 fi
 
 curl -o inventory.download $SCRIPT_REPO/inventory.ini
